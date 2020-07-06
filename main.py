@@ -12,7 +12,9 @@ def usd_converter(val, convert_to):
     ggl_url = f"https://www.google.com/search?q={val}+usd+to+{convert_to}"
     ggl_page = requests.get(ggl_url)
     soup = BeautifulSoup(ggl_page.content, "html.parser")
-    return str(soup.find_all("div", class_="dDoNo vk_bk gsrt gzfeS"))
+    converted_val = str(soup.find_all("div", class_="DFlfde SwHCTb"))
+    name = str(soup.find_all("div", class_="MWvIVe"))
+    return converted_val, name
 
 
 def currency_chooser(us_val):
@@ -33,5 +35,10 @@ if __name__ == "__main__":
     us_coin_price = price[106:to_stop_at(106)]
     print(us_coin_price)
     result = currency_chooser(us_coin_price)
-    currency_name = "currency_placeholder"
-    print(f"{user_coin.title()} is worth {result} {currency_name}")
+    if result != us_coin_price:
+        value = result[0]
+        currency_name = result[1].title()
+    else:
+        value = result
+        currency_name = "US dollar"
+    print(f"{user_coin.title()} is worth {value} {currency_name}")
