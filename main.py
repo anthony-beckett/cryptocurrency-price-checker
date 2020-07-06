@@ -10,12 +10,16 @@ def to_stop_at(char):
 
 def to_get_currency(full_data):
     converted_val = ""
-    for i in full_data[1][:40]:
-        if i != " ":
-            converted_val += i
-        else:
-            data = str(full_data[1]).replace(converted_val+" ", "")
-            return data, converted_val
+    try:
+        for i in full_data[1][:40]:
+            if i != " ":
+                converted_val += i
+            else:
+                data = str(full_data[1]).replace(converted_val+" ", "")
+                return data, converted_val
+    except:
+        print("Error: Currency not found")
+        exit(1)
 
 
 def to_get_name(data):
@@ -52,7 +56,11 @@ def get_crypto(coin):
 if __name__ == "__main__":
     user_coin = input("Enter a cryptocoin to find its price: ").lower()
     price = get_crypto(user_coin)
-    us_coin_price = price[106:to_stop_at(106)]
+    try:
+        us_coin_price = price[106:to_stop_at(106)]
+    except:
+        print("ERROR: Your coin could not be found")
+        exit(1)
     result = currency_chooser(us_coin_price)
     if result != us_coin_price:
         value = result[0]
