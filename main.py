@@ -8,20 +8,16 @@ def to_stop_at(char):
     return char-2
 
 
-def USD_to_Other(val, convert_to):
-    ggl_url = f"google.com/search?q={val}+us+dollar+to+{convert_to}"
+def usd_converter(val, convert_to):
+    ggl_url = f"https://www.google.com/search?q={val}+usd+to+{convert_to}"
     ggl_page = requests.get(ggl_url)
     soup = BeautifulSoup(ggl_page.content, "html.parser")
-    results = soup.find("div", id="knowledge-currency__updatable-data-column")
-    results.find_all("div", class_="dDoNo vk_bk gsrt gzfeS")
-    return results
+    return str(soup.find_all("div", class_="dDoNo vk_bk gsrt gzfeS"))
 
-def currency_chooser(US_val, coin):
-    currency = input("Enter currency you wish to see: ")
-    if currency == "USD":
-        return US_val
-    else:
-        return USD_to_Other(US_val, currency.replace(" ", "+"))
+
+def currency_chooser(us_val):
+    currency = input("Enter currency you wish to see: ").replace(" ", "+")
+    return usd_converter(us_val, currency) if currency != "USD" else us_val
 
 
 def get_crypto(coin):
@@ -34,5 +30,8 @@ def get_crypto(coin):
 if __name__ == "__main__":
     user_coin = input("Enter a cryptocoin to find its price: ").lower()
     price = get_crypto(user_coin)
-    US_coin_price = price[106:to_stop_at(105)].replace(",", "")
-    print(currency_chooser(US_coin_price, user_coin))
+    us_coin_price = price[106:to_stop_at(106)]
+    print(us_coin_price)
+    result = currency_chooser(us_coin_price)
+    currency_name = "currency_placeholder"
+    print(f"{user_coin.title()} is worth {result} {currency_name}")
