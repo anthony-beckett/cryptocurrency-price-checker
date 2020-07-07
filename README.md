@@ -1,4 +1,4 @@
-Given a user-given cryptocurrency present on https://coinmarketcap.com/, this program will return the coin's price in a userspecified currency at the given time.
+Given a user-provided cryptocurrency present on https://coinmarketcap.com/, this program will return the coin's price in a user-specified currency at the given time.
 
 **Dependencies**
 * Python 3.8
